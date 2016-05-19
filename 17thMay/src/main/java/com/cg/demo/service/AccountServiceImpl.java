@@ -20,7 +20,13 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Account createAccount(Customer c, float amount)
 			throws InvalidInitialAmountException {
-		return null;
+		if(c==null){
+			return null;
+		}
+		if(amount < 500){
+			throw new InvalidInitialAmountException();
+		}
+		return new Account(1234);
 	}
 
 	@Override

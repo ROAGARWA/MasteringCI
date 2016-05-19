@@ -9,8 +9,10 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.when;
 import com.cg.demo.beans.Account;
+import com.cg.demo.beans.Customer;
 import com.cg.demo.exceptions.InsufficientBalanceException;
 import com.cg.demo.exceptions.InvalidAccountException;
+import com.cg.demo.exceptions.InvalidInitialAmountException;
 import com.cg.demo.repo.AccountRepo;
 import com.cg.demo.service.AccountService;
 import com.cg.demo.service.AccountServiceImpl;
@@ -29,10 +31,29 @@ public class AccountServiceTest {
 	}
 	/*************************
 	 *  Test cases for createAccount
+	 * @throws InvalidInitialAmountException 
 	 * **********************/
 	// Customer object reference should not be null
 	// Amount should be greater than 500 otherwise throw InvalidInitialAmountException
 	// Account should be create successfully
+	
+	
+	@Test
+	public void customerIsNullWhileCreatingAccount() throws InvalidInitialAmountException{
+		assertEquals(null, service.createAccount(null, 1000));
+	}
+	
+	@Test(expected=InvalidInitialAmountException.class)
+	public void throwExceptionIfIntialAmountIsLessThatFiveHundred() throws InvalidInitialAmountException{
+		Customer c = new Customer();
+		service.createAccount(c, 100);
+	}
+	
+	@Test
+	public void accountCreatedSuccefuly() throws InvalidInitialAmountException{
+		Customer c = new Customer();
+		assertEquals(1234, service.createAccount(c, 1000).getNumber());
+	}
 
 	/*************************************************
 	 *  Test cases for showBalance	
